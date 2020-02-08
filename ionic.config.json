@@ -1,0 +1,7 @@
+{
+  "name": "books-barcode",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
