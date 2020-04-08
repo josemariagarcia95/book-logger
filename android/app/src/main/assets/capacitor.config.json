@@ -1,6 +1,6 @@
 {
   "appId": "io.ionic.starter",
-  "appName": "books-barcode",
+  "appName": "Book Logger",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
