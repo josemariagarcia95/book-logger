@@ -22,36 +22,6 @@ export class Tab3Page {
       formats: 'EAN_13, EAN_8',
     };
     const bookData = this.bookProvider.getBookData( this.isbn );
-    console.log( bookData );
-    /*
-    this.toast.show('Soy un toast de ionic', '5000', 'center').subscribe(
-      toast => {
-        console.log(toast);
-      }
-    );
-    */
-    /*
-    console.log( 'Llamamos a click' );
-    this.barcodeScanner
-      .scan( optionsBarcodeScanner )
-      .then( barcodeData => {
-        console.log( 'Data scaned' );
-        console.log( 'Barcode data', barcodeData );
-        if ( !barcodeData.cancelled ) {
-          const bookData = this.bookProvider.getBookData( barcodeData.text );
-          console.log( bookData );
-        } else {
-          this.toast.show( 'Lectura cancelada', '3000', 'bottom' ).subscribe(
-            toast => {
-              console.log( toast );
-            }
-          );
-        }
-      } )
-      .catch( err => {
-        console.log( 'Error' );
-        console.log( 'Error', err );
-      } );
-      */
+    bookData.then( data => console.log( data ) ).catch( error => console.log( error ) );
   }
 }
