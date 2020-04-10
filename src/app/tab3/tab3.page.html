@@ -8,4 +8,8 @@
 
 <ion-content id="tab3-content">
   <ion-button (click)="click()">Pulsame</ion-button>
+  <div *ngIf="showList">
+    <h2>Results</h2>
+    {{result}}
+  </div>
 </ion-content>

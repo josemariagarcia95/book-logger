@@ -8,15 +8,15 @@ import { GoodReadsProvider } from './book-data-provider';
 export class BookProviderService {
   constructor( private goodreadsProvider: GoodReadsProvider ) {}
 
-  getBookData( bookISBN: string ): Promise < BookData > {
+  getBookData( bookISBN: string ): Promise < object > {
     return new Promise( ( resolve, reject ) => {
       // this.bookQueryUrls( bookISBN );
-      this.goodreadsProvider.getBook( bookISBN );
-      resolve( {
-        isbn: 'string',
-        title: 'string',
-        synopsis: 'string',
-        editor: 'string'
+      this.goodreadsProvider.getBook( bookISBN ).then( data => {
+        console.log( 'this is the resolve in book service' );
+        resolve( data );
+      } ).catch( error => {
+        console.log( 'this is the reject in book service' );
+        reject( error );
       } );
     } );
   }
