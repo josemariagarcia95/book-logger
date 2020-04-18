@@ -8,10 +8,6 @@ import { Component } from '@angular/core';
 } )
 export class Tab1Page {
 
-  constructor( private platform: Platform ) {
-    console.log( this.platform.platforms() );
-    console.log( this.platform.is( 'hybrid' ) );
-    console.log( this.platform.is( 'mobileweb' ) );
-  }
+  constructor( private platform: Platform ) {}
 
 }

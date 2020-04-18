@@ -18,21 +18,22 @@ abstract class BookDataProvider {
    */
   constructor( protected httpCordova: HttpClient, protected httpNative: HTTP, protected platform: Platform ) {}
 
-  abstract getBook( isbn: string ): Promise < object > ;
+  abstract getBook( isbn: string ): Promise < BookData > ;
 
   /**
-   * Retrieves an HTML page from a book repository.
+   * Retrieves a Document object holding a HTML page from a book repository.
    * @returns Promise<object> HTML Document
    */
-  protected getRequest( url: string, responseType: string = 'document' ): Promise < object > {
+  protected getRequest( url: string, responseType: string = 'document' ): Promise < Document > {
     return new Promise( ( resolve, reject ) => {
       // if we're in the development environment (platform -> mobileweb)
       const options: object = { responseType };
       if ( this.platform.is( 'mobileweb' ) ) {
         this.httpCordova.get( url, options ).subscribe( response => {
-          // response here is a document, object type
+          // response here is already a document because of the responseType
+          // option, object type
           console.log( 'Got page response in getRequest (angular)' );
-          resolve( response );
+          resolve( response as Document );
         }, error => {
           console.log( 'Error in getRequest' );
           console.error( error );
@@ -43,6 +44,8 @@ abstract class BookDataProvider {
         this.httpNative.get( url, options, {} )
           .then( response => {
             console.log( 'Got page response in getRequest (ionic)' );
+            // parse the text result to a DOM object since HTTP doesn't support
+            // the document option in responseType
             resolve( new DOMParser().parseFromString( response.data, 'text/html' ) );
           } )
           .catch( error => {
@@ -61,42 +64,26 @@ export class GoodReadsProvider extends BookDataProvider {
   constructor( protected httpCordova: HttpClient, protected httpNative: HTTP, protected platform: Platform ) {
     super( httpCordova, httpNative, platform );
   }
-  public getBook( isbn: string ): Promise < object > {
+  public getBook( isbn: string ): Promise < BookData > {
     return new Promise( ( resolve, reject ) => {
       const url = `https://www.goodreads.com/search?q=${isbn}`;
       console.log( url );
       this.getRequest( url ).then( data => {
-        console.log( data );
-        resolve( data );
+        //document.
+        //data as.getElementsByClassName( '' )
+        console.log( document );
+        resolve( {
+          isbn,
+          title: data.querySelector( '.bookTitle cite' ).textContent,
+          author: data.querySelector( 'a.authorName span' ).textContent,
+          synopsis: data.querySelector( '.bookDescription span.fullContent' ).innerHTML,
+          editor: data.querySelector( '.bookDetails div.publication' ).textContent,
+          imgURL: data.querySelector( '.bookCoverImage' ).getAttribute( 'src' )
+        } );
       } ).catch( error => {
         reject( error );
         console.log( error );
       } );
-      // url, parameters, headers
-      /*
-      this.http.get( url, {} ).subscribe( response => {
-        console.log( 'Data in goodreads provider' );
-        resolve( response );
-      }, error => {
-        console.log( 'Error in goodreads provider' );
-        reject( error );
-      } );
-      */
-
-
-      /*
-      .then( data => {
-        console.log( "get" );
-        console.log( data.status );
-        console.log( data.data ); // data received by server
-        console.log( data.headers );
-      } ).catch( error => {
-        console.log( error );
-        console.log( error.status );
-        console.log( error.error ); // error message as string
-        console.log( error.headers );
-      } );
-      */
     } );
   }
 }

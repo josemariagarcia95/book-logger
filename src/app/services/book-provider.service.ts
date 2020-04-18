@@ -8,7 +8,7 @@ import { GoodReadsProvider } from './book-data-provider';
 export class BookProviderService {
   constructor( private goodreadsProvider: GoodReadsProvider ) {}
 
-  getBookData( bookISBN: string ): Promise < object > {
+  getBookData( bookISBN: string ): Promise < BookData > {
     return new Promise( ( resolve, reject ) => {
       // this.bookQueryUrls( bookISBN );
       this.goodreadsProvider.getBook( bookISBN ).then( data => {

@@ -30,7 +30,7 @@ export class Tab3Page {
       console.log( 'this is the then in tab3' );
       console.log( data );
       this.showList = true;
-      // this.result = data.toString();
+      this.result = data.title + ',  ' + data.author;
     } ).catch( error => {
       console.log( error );
       this.showList = true;
